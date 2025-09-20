@@ -6,9 +6,6 @@
     "artifactName": "${name}.${ext}",
     "productName": "ElectronJS-Template",
     "icon": "logo.png",
-    "overwolf": {
-      "disableAdOptimization": false
-    },
     "directories": {
       "app": "./dist/",
       "output": "./out/"
