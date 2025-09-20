@@ -12,13 +12,46 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: 🕵 Setup
+      - name: 🛒 Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: lts/*
           cache: npm
+
+      - name: 🕵 Get version from package.json
+        id: get_version
+        shell: pwsh
+        run: |
+          $json = Get-Content package.json | ConvertFrom-Json
+          echo "version=$($json.version)" >> $env:GITHUB_OUTPUT
+
+      - name: 🕵 Get name from package.json
+        id: get_name
+        shell: pwsh
+        run: |
+          $json = Get-Content package.json | ConvertFrom-Json
+          echo "name=$($json.name)" >> $env:GITHUB_OUTPUT
+
+      - name: 🔍 Check if release with current version exists
+        id: check_release
+        run: |
+          VERSION="v${{ steps.get_version.outputs.version }}"
+          echo "Checking for release $VERSION..."
+          if gh release view "$VERSION" > nul 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - name: ❌ Cancel workflow if release exists
+        if: steps.check_release.outputs.exists == 'true'
+        run: |
+          echo "Release v${{ steps.get_version.outputs.version }} already exists. Cancelling workflow."
+          exit 1
 
       - name: 💾 Validate cache
         run: npm ci
@@ -46,20 +79,6 @@ jobs:
 
       - name: 💻 Build application
         run: npm run build:electron
-
-      - name: 🕵 Get version from package.json
-        id: get_version
-        shell: pwsh
-        run: |
-          $json = Get-Content package.json | ConvertFrom-Json
-          echo "version=$($json.version)" >> $env:GITHUB_OUTPUT
-
-      - name: 🕵 Get name from package.json
-        id: get_name
-        shell: pwsh
-        run: |
-          $json = Get-Content package.json | ConvertFrom-Json
-          echo "name=$($json.name)" >> $env:GITHUB_OUTPUT
 
       - name: 📤 Upload release to local repository
         uses: softprops/action-gh-release@v1

@@ -7,29 +7,49 @@
 # <center>ElectronJS-template</center>
 
 
-<center>
+<p align="center">
 
 <!-- ===== GitHub Stats ===== -->
-![License](https://img.shields.io/github/license/XXanderWP/ElectronJS-template)
-![Created](https://img.shields.io/github/created-at/XXanderWP/ElectronJS-template)
-![Downloads](https://img.shields.io/github/downloads/XXanderWP/ElectronJS-template/total)
-![Build](https://img.shields.io/github/actions/workflow/status/XXanderWP/ElectronJS-template/build.yml)
-![Contributors](https://img.shields.io/github/contributors/XXanderWP/ElectronJS-template)
-![Last commit](https://img.shields.io/github/last-commit/XXanderWP/ElectronJS-template)
-![Issues](https://img.shields.io/github/issues/XXanderWP/ElectronJS-template)
-![Stars](https://img.shields.io/github/stars/XXanderWP/ElectronJS-template)
-![Forks](https://img.shields.io/github/forks/XXanderWP/ElectronJS-template)
+<a href="https://github.com/XXanderWP/ElectronJS-template/blob/main/LICENSE">
+  <img src="https://img.shields.io/github/license/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template">
+  <img src="https://img.shields.io/github/created-at/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/releases">
+  <img src="https://img.shields.io/github/downloads/XXanderWP/ElectronJS-template/total?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/actions">
+  <img src="https://img.shields.io/github/actions/workflow/status/XXanderWP/ElectronJS-template/build.yml?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/graphs/contributors">
+  <img src="https://img.shields.io/github/contributors/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/commits/main">
+  <img src="https://img.shields.io/github/last-commit/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/issues">
+  <img src="https://img.shields.io/github/issues/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/stargazers">
+  <img src="https://img.shields.io/github/stars/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
+<a href="https://github.com/XXanderWP/ElectronJS-template/network/members">
+  <img src="https://img.shields.io/github/forks/XXanderWP/ElectronJS-template?style=for-the-badge" />
+</a>
 
-<br>
+<br><br>
 
 <!-- ===== Tech Stack ===== -->
-![ElectronJS](https://img.shields.io/badge/ElectronJS-47848F?logo=electron&logoColor=white&)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&)
-![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black&)
-![Webpack](https://img.shields.io/badge/Webpack-8DD6F9?logo=webpack&logoColor=black&)
-![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white&)
-![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&)
-</center>
+<img src="https://img.shields.io/badge/ElectronJS-47848F?logo=electron&logoColor=white&style=for-the-badge" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge" />
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black&style=for-the-badge" />
+<img src="https://img.shields.io/badge/Webpack-8DD6F9?logo=webpack&logoColor=black&style=for-the-badge" />
+<img src="https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white&style=for-the-badge" />
+<img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=for-the-badge" />
+
+</p>
+
 
 
 A starter template for building desktop applications with Electron, TypeScript, React and Webpack.
