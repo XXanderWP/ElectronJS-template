@@ -86,11 +86,11 @@
     "typescript-eslint": "^8.44.0",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1",
-    "webpack-merge": "^6.0.1"
+    "webpack-merge": "^6.0.1",
+    "electron": "^38.1.2"
   },
   "dependencies": {
     "css-loader": "^7.1.2",
-    "electron": "^38.1.2",
     "file-loader": "^6.2.0",
     "less-loader": "^12.3.0",
     "react": "^19.1.1",
