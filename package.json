@@ -1,0 +1,100 @@
+{
+  "name": "electronjs-template",
+  "version": "1.0.0",
+  "build": {
+    "appId": "com.xxanderwp.template",
+    "artifactName": "${name}.${ext}",
+    "productName": "ElectronJS-Template",
+    "icon": "logo.png",
+    "overwolf": {
+      "disableAdOptimization": false
+    },
+    "directories": {
+      "app": "./dist/",
+      "output": "./out/"
+    },
+    "win": {
+      "target": {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "description": "ElectronJS template (TypeScript, WebPack, React, ESLint)",
+  "keywords": [
+    "ElectronJS",
+    "Template",
+    "TypeScript",
+    "React",
+    "WebPack",
+    "ESLint"
+  ],
+  "homepage": "https://github.com/XXanderWP/ElectronJS-template#readme",
+  "bugs": {
+    "url": "https://github.com/XXanderWP/ElectronJS-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XXanderWP/ElectronJS-template.git"
+  },
+  "license": "MIT",
+  "author": "XXanderWP",
+  "type": "commonjs",
+  "main": "./dist/main.bundle.js",
+  "scripts": {
+    "next-patch": "npm version patch",
+    "next-minor": "npm version minor",
+    "next-major": "npm version major",
+    "watch": "webpack --watch --progress",
+    "build": "webpack",
+    "build:electron": "electron-builder build --publish never",
+    "build:frontend": "cross-env NODE_ENV=production webpack --config webpack.config.frontend.mjs",
+    "build:backend": "cross-env NODE_ENV=production webpack --config webpack.config.backend.mjs",
+    "build:workers": "cross-env NODE_ENV=production webpack --config webpack.config.workers.mjs",
+    "start": "electron ./dist/main.bundle.js",
+    "jest": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules NODE_NO_WARNINGS=1 jest",
+    "lint": "eslint . --cache --fix",
+    "test": "npm run lint && npm run jest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@overwolf/ow-electron-packages-types": "^0.0.16",
+    "@swc/core": "^1.13.5",
+    "@types/jest": "^30.0.0",
+    "@types/md5": "^2.3.5",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "copy-webpack-plugin": "^13.0.1",
+    "cross-env": "^10.0.0",
+    "dotenv-webpack": "^8.1.1",
+    "electron-builder": "^26.0.12",
+    "esbuild-loader": "^4.3.0",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "html-webpack-plugin": "^5.6.4",
+    "jest": "^30.1.3",
+    "tsconfig-paths-webpack-plugin": "^4.2.0",
+    "typescript-eslint": "^8.44.0",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1",
+    "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "css-loader": "^7.1.2",
+    "electron": "^38.1.2",
+    "file-loader": "^6.2.0",
+    "less-loader": "^12.3.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "style-loader": "^4.0.0"
+  }
+}

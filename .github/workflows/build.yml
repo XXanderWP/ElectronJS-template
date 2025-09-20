@@ -1,0 +1,80 @@
+name: Build ElectronJS Application
+
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: 🕵 Setup
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: 💾 Validate cache
+        run: npm ci
+
+      - name: 🛠️ Build backend
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: npm run build:backend
+
+      - name: 🛠️ Build workers
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: npm run build:workers
+
+      - name: 🛠️ Build workers
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: npm run build:workers
+
+      - name: 🛠️ Build frontend
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: npm run build:frontend
+
+      - name: 💻 Build application
+        run: npm run build:electron
+
+      - name: 🕵 Get version from package.json
+        id: get_version
+        shell: pwsh
+        run: |
+          $json = Get-Content package.json | ConvertFrom-Json
+          echo "version=$($json.version)" >> $env:GITHUB_OUTPUT
+
+      - name: 🕵 Get name from package.json
+        id: get_name
+        shell: pwsh
+        run: |
+          $json = Get-Content package.json | ConvertFrom-Json
+          echo "name=$($json.name)" >> $env:GITHUB_OUTPUT
+
+      - name: 📤 Upload release to local repository
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+          files: |
+            out/${{ steps.get_name.outputs.name }}.exe
+            out/latest.yml
