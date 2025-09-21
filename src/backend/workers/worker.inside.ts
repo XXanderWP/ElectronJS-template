@@ -1,10 +1,13 @@
 import { System } from '_/shared/system';
 import '../modules/error.handlers';
+import { StorageController } from '_/shared/storage';
+
 if (typeof process.send === 'function') {
   global.isPackaged = process.argv[2] === 'packaged';
 }
 
 export const WorkerInside = new (class {
+  storage = new StorageController();
   get isWorker() {
     return typeof process.send === 'function';
   }
@@ -30,6 +33,16 @@ export const WorkerInside = new (class {
 
     this.On('_ping', id => {
       this.Send(`_pong_${id}`);
+    });
+
+    this.On(`_storage_load_answer`, data => {
+      this.storage.Load(data);
+    });
+    this.On(`_storage_set_sync`, ([key, value]) => {
+      this.storage.Set(key, value);
+    });
+    this.storage.OnChangeKey((key, value) => {
+      this.Send('_storage_set', [key, value]);
     });
 
     this.Send('loadComplete');

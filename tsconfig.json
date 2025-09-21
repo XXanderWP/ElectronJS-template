@@ -10,6 +10,7 @@
     "paths": {
       "_/*": ["src/*"],
       "_shared/*": ["src/shared/*"],
+      "_lang/*": ["src/lang/*"],
       "_backend/*": ["src/backend/*"],
       "_workers/*": ["src/backend/workers/*"],
       "_frontend/*": ["src/frontend/*"],
@@ -24,5 +25,5 @@
     "jsx": "react",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*"]
 }

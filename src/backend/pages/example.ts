@@ -1,11 +1,14 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
+import { Storage } from '../modules/storage';
+import { System } from '_/shared/system';
 let examplePage: BrowserWindow | undefined;
 
 export const CloseExamplePage = () => {
   if (examplePage && !examplePage.isDestroyed()) {
     examplePage.destroy();
   }
+
   examplePage = undefined;
 };
 
@@ -36,3 +39,7 @@ export const OpenExamplePage = () => {
     CloseExamplePage();
   });
 };
+
+if (!Storage.Get('firstRun')) {
+  Storage.Set('firstRun', System.timestamp);
+}

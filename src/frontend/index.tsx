@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
+import './modules';
 import { ApplicationEntry } from './App';
 import './styles/index.less';
 

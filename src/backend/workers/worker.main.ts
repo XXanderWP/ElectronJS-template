@@ -3,6 +3,7 @@ import path from 'path';
 import { System } from '_shared/system';
 import { app, shell } from 'electron';
 import '../modules/error.handlers';
+import { Storage } from '../modules/storage';
 
 export class WorkerMain {
   static OnEvents: {
@@ -38,7 +39,13 @@ export class WorkerMain {
   private child!: ChildProcess;
 
   readonly workerName: string;
+
   private initDone = false;
+  private _storage = false;
+  get storage() {
+    return !!this._storage;
+  }
+
   private OnEvents: { id: string; name: string; cb: (data: any) => void }[] =
     [];
 
@@ -46,12 +53,16 @@ export class WorkerMain {
     console.log(`[Worker: ${this.workerName}]`, ...text);
   }
 
-  constructor(workerName: string) {
+  constructor(workerName: string, storage = false) {
     this.workerName = workerName;
+    this._storage = storage;
     this.InitCoreEvents();
 
     this.On('loadComplete', () => {
       this.initDone = true;
+      if (this.storage) {
+        this.Send('_storage_load_answer', Storage.data);
+      }
     });
 
     this.InitFork();
@@ -74,11 +85,15 @@ export class WorkerMain {
         this.child.kill();
       } catch (error) {}
     }
+
     this.child = undefined as any;
   }
 
   private InitFork() {
-    if (this.child) return;
+    if (this.child) {
+      return;
+    }
+
     this.CloseFork();
 
     this.child = fork(path.join(__dirname, `workers/${this.workerName}.js`), [
@@ -87,8 +102,13 @@ export class WorkerMain {
 
     this.child.on('exit', (code, signal) => {
       this.Log(`exit. Status code: ${code}, signal: ${signal}. Restarting...`);
-      if (!this.child) return;
+
+      if (!this.child) {
+        return;
+      }
+
       this.CloseFork();
+
       setTimeout(() => {
         this.InitFork();
       }, 100);
@@ -96,8 +116,13 @@ export class WorkerMain {
 
     this.child.on('disconnect', () => {
       this.Log(`disconnected. Restarting...`);
-      if (!this.child) return;
+
+      if (!this.child) {
+        return;
+      }
+
       this.CloseFork();
+
       setTimeout(() => {
         this.InitFork();
       }, 100);
@@ -180,5 +205,28 @@ export class WorkerMain {
     this.On('_console_log', data => {
       this.Log(...data);
     });
+    if (this._storage) {
+      this.On('_storage_set', ([key, value]) => {
+        Storage.Set(key, value);
+      });
+    }
   }
 }
+
+Storage.OnLoad(data => {
+  WorkerMain.workers
+    .filter(q => q.storage)
+    .forEach(worker => {
+      worker.Send('_storage_load_answer', Storage.data);
+    });
+});
+
+Storage.OnChangeKey((key, value) => {
+  WorkerMain.workers
+    .filter(q => q.storage)
+    .forEach(worker => {
+      worker.Send('_storage_set_sync', [key, value]);
+    });
+});
+
+WorkerMain.workers.filter(q => q.storage).forEach(worker => {});

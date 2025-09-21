@@ -2,6 +2,7 @@ declare global {
   interface Window {
     /** APIs for Electron IPC */
     ipcAPI?: typeof import('_preload/ipc-api').default;
+    storage?: import('_shared/storage').StorageController;
   }
   function openExternal(
     url: string,

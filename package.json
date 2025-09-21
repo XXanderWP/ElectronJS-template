@@ -1,6 +1,6 @@
 {
   "name": "electronjs-template",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "build": {
     "appId": "com.xxanderwp.template",
     "artifactName": "${name}.${ext}",
@@ -64,12 +64,14 @@
     "@overwolf/ow-electron-packages-types": "^0.0.16",
     "@swc/core": "^1.13.5",
     "@types/jest": "^30.0.0",
+    "@types/lodash": "^4.17.20",
     "@types/md5": "^2.3.5",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "copy-webpack-plugin": "^13.0.1",
     "cross-env": "^10.0.0",
     "dotenv-webpack": "^8.1.1",
+    "electron": "^38.1.2",
     "electron-builder": "^26.0.12",
     "esbuild-loader": "^4.3.0",
     "eslint": "^9.36.0",
@@ -79,17 +81,18 @@
     "eslint-plugin-unused-imports": "^4.2.0",
     "html-webpack-plugin": "^5.6.4",
     "jest": "^30.1.3",
+    "ts-jest": "^29.4.4",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
     "typescript-eslint": "^8.44.0",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1",
-    "webpack-merge": "^6.0.1",
-    "electron": "^38.1.2"
+    "webpack-merge": "^6.0.1"
   },
   "dependencies": {
     "css-loader": "^7.1.2",
     "file-loader": "^6.2.0",
     "less-loader": "^12.3.0",
+    "lodash": "^4.17.21",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "style-loader": "^4.0.0"
