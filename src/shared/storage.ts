@@ -90,6 +90,7 @@ export class StorageController {
     value: StorageDataType[K],
     save = false
   ) {
+    if (_.isEqual(this.data[key], value)) return;
     const oldData = _.cloneDeep(this._data);
     this._data[key] = value;
     this._onChange.forEach(q => q.handle(this._data, oldData));
