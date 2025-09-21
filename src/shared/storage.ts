@@ -119,7 +119,7 @@ export class StorageController {
 
   constructor(initData?: StorageDataType) {
     // Init default storage
-    this.Load(initData || StorageInitData);
+    this.Load({ ...StorageInitData, ...(initData || {}) });
 
     setInterval(() => {
       if (!this.saveDelay) return;
