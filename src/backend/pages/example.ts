@@ -6,6 +6,7 @@ export const CloseExamplePage = () => {
   if (examplePage && !examplePage.isDestroyed()) {
     examplePage.destroy();
   }
+
   examplePage = undefined;
 };
 

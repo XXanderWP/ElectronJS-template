@@ -1,5 +1,6 @@
 import { System } from '_/shared/system';
 import '../modules/error.handlers';
+
 if (typeof process.send === 'function') {
   global.isPackaged = process.argv[2] === 'packaged';
 }

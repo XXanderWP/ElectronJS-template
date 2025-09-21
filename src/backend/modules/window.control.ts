@@ -4,14 +4,20 @@ ipcMain.on(
   'window-control',
   (ev, action: 'minimize' | 'maximize' | 'close') => {
     const win = BrowserWindow.getFocusedWindow();
-    if (!win) return;
+
+    if (!win) {
+      return;
+    }
+
     switch (action) {
       case 'minimize':
         win.minimize();
         break;
+
       case 'maximize':
         win.isMaximized() ? win.unmaximize() : win.maximize();
         break;
+
       case 'close':
         win.close();
         break;

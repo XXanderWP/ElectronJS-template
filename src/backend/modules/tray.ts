@@ -51,21 +51,28 @@ export const TrayController = new (class {
     if (this.tray) {
       this.tray.destroy();
     }
-    if (!this.show) return;
+
+    if (!this.show) {
+      return;
+    }
+
     this.tray = new Tray(path.join(__dirname, 'icon.png'));
 
     this.tray.on('double-click', (event, bound) => {
       this._handleAction('double-click', event, bound);
     });
+
     this.tray.on('click', (event, bound) => {
       this._handleAction('click', event, bound);
     });
+
     this.tray.on('right-click', (event, bound) => {
       this._handleAction('right-click', event, bound);
     });
-    if (this._contextMenu)
+
+    if (this._contextMenu) {
       this.tray.setContextMenu(Menu.buildFromTemplate(this._contextMenu));
-    else {
+    } else {
       this.tray.setContextMenu(null);
     }
   }
@@ -73,6 +80,7 @@ export const TrayController = new (class {
   get contextMenu() {
     return this._contextMenu;
   }
+
   set contextMenu(val) {
     this._contextMenu = val;
     this._RebuildContextMenu();
@@ -81,8 +89,12 @@ export const TrayController = new (class {
   get show() {
     return this._show;
   }
+
   set show(val) {
-    if (!!val === !!this._show) return;
+    if (!!val === !!this._show) {
+      return;
+    }
+
     this.show = !!val;
     this._RebuildContextMenu();
   }

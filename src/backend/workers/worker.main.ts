@@ -38,7 +38,9 @@ export class WorkerMain {
   private child!: ChildProcess;
 
   readonly workerName: string;
+
   private initDone = false;
+
   private OnEvents: { id: string; name: string; cb: (data: any) => void }[] =
     [];
 
@@ -74,11 +76,15 @@ export class WorkerMain {
         this.child.kill();
       } catch (error) {}
     }
+
     this.child = undefined as any;
   }
 
   private InitFork() {
-    if (this.child) return;
+    if (this.child) {
+      return;
+    }
+
     this.CloseFork();
 
     this.child = fork(path.join(__dirname, `workers/${this.workerName}.js`), [
@@ -87,8 +93,13 @@ export class WorkerMain {
 
     this.child.on('exit', (code, signal) => {
       this.Log(`exit. Status code: ${code}, signal: ${signal}. Restarting...`);
-      if (!this.child) return;
+
+      if (!this.child) {
+        return;
+      }
+
       this.CloseFork();
+
       setTimeout(() => {
         this.InitFork();
       }, 100);
@@ -96,8 +107,13 @@ export class WorkerMain {
 
     this.child.on('disconnect', () => {
       this.Log(`disconnected. Restarting...`);
-      if (!this.child) return;
+
+      if (!this.child) {
+        return;
+      }
+
       this.CloseFork();
+
       setTimeout(() => {
         this.InitFork();
       }, 100);

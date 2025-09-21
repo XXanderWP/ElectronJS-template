@@ -135,7 +135,14 @@ export const getAllLangData = () => {
 
 export const GetUserLanguage = (data?: string): langType => {
   const lang = data || 'en';
-  if (lang.startsWith('ru')) return 'ru';
-  if (lang.startsWith('uk')) return 'uk';
+
+  if (lang.startsWith('ru')) {
+    return 'ru';
+  }
+
+  if (lang.startsWith('uk')) {
+    return 'uk';
+  }
+
   return 'en';
 };

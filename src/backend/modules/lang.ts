@@ -1,11 +1,13 @@
 import { GetUserLanguage, langString } from '_/lang/core';
 import { execSync } from 'child_process';
-import os from 'os';
 
 let systemLanguage: langType | undefined = undefined;
 
 function detectLanguage() {
-  if (systemLanguage) return;
+  if (systemLanguage) {
+    return;
+  }
+
   let lang = null;
 
   // 1️⃣ Сначала пробуем Node.js / OS
@@ -41,10 +43,12 @@ function detectLanguage() {
 
 export const LangString = (id: langData, ...args: any[]) => {
   detectLanguage();
+
   const lang =
     process.env.LANG ||
     process.env.LANGUAGE ||
     process.env.LC_ALL ||
     process.env.LC_MESSAGES;
+
   return langString(systemLanguage || GetUserLanguage(lang), id, ...args);
 };
