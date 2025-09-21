@@ -1,6 +1,6 @@
 {
   "name": "electronjs-template",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "build": {
     "appId": "com.xxanderwp.template",
     "artifactName": "${name}.${ext}",
