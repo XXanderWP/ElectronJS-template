@@ -63,12 +63,16 @@ Features
 - Example UI (titlebar) and basic window control handlers.
 - ESLint and Prettier integration for consistent code style.
 - Support for worker bundles and packaging with electron-builder.
+- Persistent storage controller with IPC synchronization between main and renderer processes (see [`src/shared/storage.ts`](src/shared/storage.ts:1), [`src/backend/modules/storage.ts`](src/backend/modules/storage.ts:1), [`src/frontend/modules/storage.tsx`](src/frontend/modules/storage.tsx:1)).
+- Storage replication across worker processes — IPC-driven synchronization keeps in-memory storage consistent between main and forked workers (see [`src/backend/workers/worker.main.ts`](src/backend/workers/worker.main.ts:1) and [`src/backend/workers/worker.inside.ts`](src/backend/workers/worker.inside.ts:1)).
+- Unified translation layer (i18n) with centralized language files and helpers for backend and frontend (see [`src/lang/core.ts`](src/lang/core.ts:1), [`src/backend/modules/lang.ts`](src/backend/modules/lang.ts:1), [`src/frontend/modules/lang.ts`](src/frontend/modules/lang.ts:1)).
 
 Project structure
 - [`src/shared`](src/shared:1) — shared utilities and common code.
 - [`src/backend`](src/backend:1) — Electron main process, modules, pages and workers.
 - [`src/frontend`](src/frontend:1) — React renderer, entry HTML and styles.
 - [`src/preload`](src/preload:1) — preload scripts and IPC bridge exposed with `contextBridge`.
+- [`src/lang`](src/lang:1) — Language module.
 - [`src/types`](src/types:1) — TypeScript global declarations.
 
 Build & output
@@ -108,6 +112,23 @@ Packaging notes
 Contributing / extending
 - This repository is a template. Structure your new app by keeping main logic in [`src/backend`](src/backend:1), UI in [`src/frontend`](src/frontend:1) and shared utilities in [`src/shared`](src/shared:1).
 
+Changelog / Recent notable changes
+- feat(storage): add persistent storage with IPC sync — introduced a shared StorageController with persistent JSON file storage and IPC handlers that keep renderer processes in sync. Relevant files:
+  - [`src/shared/storage.ts`](src/shared/storage.ts:1) — StorageController implementation, events (OnLoad, OnChange, OnChangeKey, OnSave), auto-save logic.
+  - [`src/backend/modules/storage.ts`](src/backend/modules/storage.ts:1) — backend module persisting storage to disk and forwarding changes via IPC.
+  - [`src/frontend/modules/storage.tsx`](src/frontend/modules/storage.tsx:1) — frontend integration, listens to IPC events and exposes `useStorage()` hook.
+  - Minor frontend updates: [`src/frontend/App.tsx`](src/frontend/App.tsx:1) and [`src/frontend/index.tsx`](src/frontend/index.tsx:1).
+- feat(storage): replicate state across worker processes — added IPC-driven synchronization between main and forked workers so in-memory Storage stays consistent:
+  - [`src/backend/workers/worker.main.ts`](src/backend/workers/worker.main.ts:1) — worker bootstrap modifications: optional storage sync flag, forwarding Storage.OnLoad and OnChangeKey to workers.
+  - [`src/backend/workers/worker.inside.ts`](src/backend/workers/worker.inside.ts:1) — worker-side storage controller and IPC handlers to receive initial load and sync updates.
+  - Storage change deduplication improved in [`src/shared/storage.ts`](src/shared/storage.ts:1) to avoid redundant updates.
+- feat(i18n): add unified translation layer — provide a single source of truth for localized strings and helpers, available to both backend and frontend:
+  - [`src/lang/core.ts`](src/lang/core.ts:1) — core language registry, helpers (langString, langStringSystem, GetUserLanguage) and utilities to resolve languages and nested placeholders.
+  - [`src/backend/modules/lang.ts`](src/backend/modules/lang.ts:1) — backend-side language detection and LangString helper for main process usage.
+  - [`src/frontend/modules/lang.ts`](src/frontend/modules/lang.ts:1) — frontend helper `LangString` for renderer usage.
+  - Language resources: [`src/lang/en.json`](src/lang/en.json:1), [`src/lang/ru.json`](src/lang/ru.json:1), [`src/lang/uk.json`](src/lang/uk.json:1), [`src/lang/shared.json`](src/lang/shared.json:1).
+  - Types and config: [`src/types/lang.d.ts`](src/types/lang.d.ts:1) and a tsconfig paths update to include `_lang/*`.
+
 License
 - MIT — see [`LICENSE`](LICENSE:1).
 
@@ -115,5 +136,11 @@ Useful files and configs
 - [`package.json`](package.json:1) — scripts and build settings.
 - [`webpack.common.mjs`](webpack.common.mjs:1), [`webpack.config.frontend.mjs`](webpack.config.frontend.mjs:1), [`webpack.config.backend.mjs`](webpack.config.backend.mjs:1), [`webpack.config.workers.mjs`](webpack.config.workers.mjs:1).
 - [`tsconfig.json`](tsconfig.json:1), ESLint and Prettier config files.
+- Storage & sync related:
+  - [`src/shared/storage.ts`](src/shared/storage.ts:1)
+  - [`src/backend/modules/storage.ts`](src/backend/modules/storage.ts:1)
+  - [`src/frontend/modules/storage.tsx`](src/frontend/modules/storage.tsx:1)
+  - [`src/backend/workers/worker.main.ts`](src/backend/workers/worker.main.ts:1)
+  - [`src/backend/workers/worker.inside.ts`](src/backend/workers/worker.inside.ts:1)
 
 End of README.
